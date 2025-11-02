@@ -17,7 +17,7 @@ export const getData = async (): Promise<Names[]> => {
     }
 
     const json = await res.json();
-    return json.data; // 👈 vi returnerer kun arrayet
+    return json.data; //vi returnerer kun arrayet
 
 } 
 
