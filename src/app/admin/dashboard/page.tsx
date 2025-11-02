@@ -1,3 +1,5 @@
+//src/app/admin/dashboard/page.tsx
+
 "use client";
 
 import React, { Fragment, useState } from 'react';
@@ -7,9 +9,14 @@ import { getData } from "@/services/data";
 import { useQuery } from '@tanstack/react-query';
 import ConFirmDelete from './components/ConfirmDelete';
 
+type ModalMode = "delete" | "update" | null;
+
 const Page = () => {
 
-     const [isOpen, setIsOpen] = useState<boolean>(false);
+     const [openModal, setOpenModal] = useState<ModalMode>(null);
+    const [mId,setMId] = useState<number>(0);
+     
+
 
     const { data, isLoading } = useQuery({
         queryKey: ['mydata'],
@@ -19,17 +26,16 @@ const Page = () => {
         refetchOnWindowFocus: false,
     });
 
-      const openDeleteModal =()=>{
+const handleOpenModal = (id: number, mode: "delete" | "update") => {
+        setMId(id);
+        setOpenModal(mode);
+    };
 
-        console.log('delete');
 
-        setIsOpen(true);
-    }
-
-    const closeDeleteModal = ()=> {
-
-         setIsOpen(false);
-    }
+     const handleCloseModal = () => {
+        setOpenModal(null);
+        setMId(0);
+    };
 
 
 
@@ -56,13 +62,15 @@ const Page = () => {
                         <Fragment key={items.id}>
                             <div className="bg-gray-500 p-2.5">{items.name} {items.lastname}</div>
                             <div className="bg-gray-800 p-2.5 grid items-center justify-center hover:cursor-pointer hover:bg-gray-400"> <Pencil size={18}/></div>
-                            <div className="bg-gray-800 p-2.5 grid items-center justify-center hover:cursor-pointer hover:bg-gray-400"  onClick={openDeleteModal}> <Trash2 size={18} /></div>
+                            <div className="bg-gray-800 p-2.5 grid items-center justify-center hover:cursor-pointer hover:bg-gray-400"  onClick={() => { handleOpenModal(items.id, "delete") }} > <Trash2 size={18} /></div>
                         </Fragment>
                     ))}
                 </section>
             </div>
 
-             <ConFirmDelete modal={isOpen} close={closeDeleteModal} />
+              {openModal === "delete" && (
+                <ConFirmDelete close={handleCloseModal} id={mId} />
+            )}
 
         </>
 
