@@ -30,13 +30,13 @@ const Page = () => {
     onSuccess: () => {
       console.log("posted with success");
       // Opdater evt. liste
-      //queryClient.invalidateQueries({ queryKey: ["testarea"] });
+      queryClient.invalidateQueries({ queryKey: ["mydata"] });
       setName("");
       setLastName("");
     },
 
   });
-  
+
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -82,13 +82,13 @@ const Page = () => {
             type="submit"
             disabled={addPerson.isPending}
             className={`rounded-lg p-2 text-white font-medium transition ${addPerson.isPending
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-gray-500 hover:bg-gray-600 cursor-pointer"
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-gray-500 hover:bg-gray-600 cursor-pointer"
               }`}
           >
             {addPerson.isPending ? "Sender..." : "Send"}
           </button>
-          
+
         </div>
 
         {/* Feedback-sektion */}

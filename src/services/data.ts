@@ -9,7 +9,7 @@ export type Names = {
 
 export const getData = async (): Promise<Names[]> => {
 
-    const res = await fetch('http://localhost:3000/api/supa/');
+    const res = await fetch('/api/supa/');
 
     if (!res.ok) {
         throw new Error('Failed to fetch data'
@@ -27,7 +27,7 @@ export const getQueryData = async (id: string | null) => {
     throw new Error("Missing id for data query");
   }
 
-  const res = await fetch(`http://localhost:3000/api/supa/${id}`, { cache: "no-store" });
+  const res = await fetch(`/api/supa/${id}`, { cache: "no-store" });
 
   if (!res.ok) {
     throw new Error("Failed to fetch data from Supabase");

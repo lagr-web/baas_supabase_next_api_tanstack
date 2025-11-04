@@ -9,7 +9,9 @@ type Props = {
 };
 
 const ConfirmDelete = ({ close, id }: Props) => {
+    
   const queryClient = useQueryClient();
+
   const [statusMsg, setStatusMsg] = useState("");
 
   const deletePost = useMutation<any, Error, string>({
@@ -51,13 +53,14 @@ const ConfirmDelete = ({ close, id }: Props) => {
   return (
 
     <section
-      className="absolute grid-rows-4 w-2xs bg-white rounded top-40 left-1/2 -translate-x-1/2 text-sm p-4 shadow-2xl transition-opacity duration-500"
+      className="absolute grid-rows-4 w-2xs bg-white rounded top-40 left-1/2 -translate-x-1/2 text-sm p-4 shadow-2xl"
       role="dialog"
       aria-modal="true"
     >
       <p className="mb-10">Vil du slette denne post?</p>
 
       <div className="grid justify-end grid-cols-2 pb-4">
+
         <button
           className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 mx-6 rounded cursor-pointer"
           value="cancel"
