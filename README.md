@@ -1,13 +1,15 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Developed with:
-Supabase
-Next SSR -> tanstack.query Prefetch
-Tanstack hydration
-Tanstack mutation -> optimistic update
+**Developed with:
+- Supabase
+- Next SSR -> tanstack.query Prefetch
+- Next -> TypeScript
+- Tanstack hydration -> dehydrate
+- Tanstack mutation -> optimistic update -> useMutation
+- Next API routes
+- Tailwind
 
-
-Next API routes
+  
 
 
 
