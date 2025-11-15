@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Developed with:
 - Supabase
-- Next SSR -> tanstack.query Prefetch
+- Next SSR -> Tanstack.query Prefetch
 - Next -> TypeScript
 - Tanstack hydration -> dehydrate
 - Tanstack mutation -> optimistic update -> useMutation
