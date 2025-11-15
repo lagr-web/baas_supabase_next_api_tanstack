@@ -3,6 +3,8 @@
 import TextFields from './Textfields';
 import Button from './Button';
 import { X } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 type Props = {
 
@@ -12,6 +14,82 @@ type Props = {
 }
 
 const UpdateData = ({ close, id }: Props) => {
+
+    console.log(id);
+
+    const queryClient = useQueryClient();
+    const [statusMsg, setStatusMsg] = useState("");
+    const [formData, setFormData] = useState({ name: "", lastname: "" });
+
+    // Hent eksisterende data for post
+    const { data, isLoading } = useQuery({
+        queryKey: ["mydata", id],
+        queryFn: async () => {
+            const res = await fetch(`http://localhost:3000/api/supa/${id}`);
+            if (!res.ok) throw new Error("Fejl ved hentning af data");
+            return res.json();
+        },
+    });
+
+    // Når data er hentet, sæt den i formState
+    useEffect(() => {
+        if (data) {
+            const person = data.data ?? data; // håndtér begge formater
+            setFormData({
+                name: person.name || "",
+                lastname: person.lastname || ""
+            });
+        }
+    }, [data]);
+
+
+    const updatePost = useMutation<any, Error, { id: number; data: any }>({
+
+        mutationFn: async ({ id, data }) => {
+
+            const res = await fetch(`http://localhost:3000/api/supa/update/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+            if (!res.ok) throw new Error("Fejl ved opdatering");
+            return res.json();
+        },
+        onSuccess: () => {
+            console.log("Post opdateret!");
+            queryClient.invalidateQueries({ queryKey: ["mydata"] });
+            setStatusMsg("Opdateret!");
+            setTimeout(() => close(), 1000);
+        },
+        onError: (error) => {
+            console.error("Fejl:", error);
+            setStatusMsg("Noget gik galt ved opdatering.");
+        },
+    });
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+        e.preventDefault();
+
+        //const form = e.currentTarget;
+        // const formData = new FormData(form);
+
+        //const data = Object.fromEntries(formData.entries()); // { name: '...', lastname: '...' }
+
+        //console.log(data);
+
+        // updatePost.mutate({ id, data });
+
+        updatePost.mutate({ id, data: formData });
+
+    };
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
 
     return (
 
@@ -25,12 +103,13 @@ const UpdateData = ({ close, id }: Props) => {
                 <div className="justify-self-end" onClick={close}><X /></div>
             </div>
 
-            <form>
+            <form onSubmit={handleSubmit}>
 
                 <TextFields
                     label="Name"
                     name="name"
-
+                    value={formData.name}
+                    onChange={handleChange}
                 />
                 <span className="text-gray-400 text-sm">
                 </span>
@@ -38,7 +117,8 @@ const UpdateData = ({ close, id }: Props) => {
                 <TextFields
                     label="Lastname"
                     name="lastname"
-
+                    value={formData.lastname}
+                    onChange={handleChange}
                 />
                 <span className="text-gray-400 text-sm">
                 </span>
@@ -46,6 +126,14 @@ const UpdateData = ({ close, id }: Props) => {
                 <Button />
 
             </form>
+
+            <div className="block text-gray-600 text-center mt-2 font-medium text-base" role="status">
+                {updatePost.isPending
+                    ? "Sletter..."
+                    : statusMsg
+                        ? statusMsg
+                        : ""}
+            </div>
 
         </section>
 
