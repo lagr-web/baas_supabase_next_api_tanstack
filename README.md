@@ -1,14 +1,15 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-**Developed with:
+## Developed with:
 - Supabase
 - Next SSR -> tanstack.query Prefetch
 - Next -> TypeScript
 - Tanstack hydration -> dehydrate
 - Tanstack mutation -> optimistic update -> useMutation
-- Next API routes
-- Tailwind
+- Next API routes -> GET, POST, PUT, DELETE
+- Tailwind CSS
 
+Short summary: Next.js + React + TypeScript form the foundation; Supabase handles data; TanStack Query manages caching, fetching, and mutations; Tailwind provides styling.
   
 
 
