@@ -2,10 +2,16 @@
 
 import React, { FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import TextFields from "../admin/dashboard/components/Textfields";
-import Button from "../admin/dashboard/components/Button";
+import TextFields from "./Textfields";
+import Button from "./Button";
 
-const Page = () => {
+type Props = {
+
+    close: () => void;
+   
+}
+
+const PostData = ({ close }: Props) => {
 
   //rammer den nøjagtige samme cache, som din hydrering og dine useQuery hooks bruger.
 
@@ -35,6 +41,7 @@ const Page = () => {
       queryClient.invalidateQueries({ queryKey: ["mydata"] });
       setName("");
       setLastName("");
+       setTimeout(() => close(), 1000);
     },
 
   });
@@ -47,11 +54,11 @@ const Page = () => {
 
   return (
 
-    <div className="grid grid-col items-center justify-center h-screen bg-gray-400">
+    <div className="absolute grid-rows-4 w-2xs bg-white rounded top-40 left-1/2 -translate-x-1/2 text-sm pt-2 px-4 pb-4 shadow-2xl">
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-5 rounded-lg shadow-md w-80"
+     
       >
 
         <h2 className="text-xl font-semibold mb-4 text-center text-gray-700">
@@ -107,4 +114,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default PostData;

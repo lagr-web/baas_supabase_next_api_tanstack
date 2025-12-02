@@ -4,14 +4,16 @@
 
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Button from "./Button";
+
 
 type Props = {
   close: () => void;
-  id: number;
+  id: number | null;
 };
 
 const ConfirmDelete = ({ close, id }: Props) => {
-    
+
   const queryClient = useQueryClient();
 
   const [statusMsg, setStatusMsg] = useState("");
@@ -61,9 +63,28 @@ const ConfirmDelete = ({ close, id }: Props) => {
     >
       <p className="mb-10">Vil du slette denne post?</p>
 
-      <div className="grid justify-end grid-cols-2 pb-4">
+      <div className="grid justify-left grid-cols-3 mr-2 pb-0.5">
 
-        <button
+           <div></div>
+        <Button
+          value="cancel"
+          onClick={close}
+          className="bg-orange-500 hover:bg-orange-600"
+        >
+          Annuller
+        </Button>
+
+
+        <Button
+          value="confirm"
+          onClick={() => deletePost.mutate(String(id))}
+          disabled={deletePost.isPending}
+        >
+          Slet
+        </Button>
+
+
+        {/* <button
           className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 mx-6 rounded cursor-pointer"
           value="cancel"
           onClick={close}
@@ -78,18 +99,18 @@ const ConfirmDelete = ({ close, id }: Props) => {
           disabled={deletePost.isPending}
         >
           Slet
-        </button>
+        </button> */}
       </div>
 
       <div className="block text-gray-600 text-center mt-2 font-medium text-base" role="status">
         {deletePost.isPending
           ? "Sletter..."
           : statusMsg
-          ? statusMsg
-          : ""}
+            ? statusMsg
+            : ""}
       </div>
     </section>
-    
+
   );
 };
 

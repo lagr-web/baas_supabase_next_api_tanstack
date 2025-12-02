@@ -9,13 +9,14 @@ import { getData } from "@/services/data";
 import { useQuery } from '@tanstack/react-query';
 import ConFirmDelete from './components/ConfirmDelete';
 import UpdateData from './components/UpdateData';
+import PostData from './components/PostData';
 
-type ModalMode = "delete" | "update" | null;
+type ModalMode = "delete" | "update" | "post" | null;
 
 const Page = () => {
 
     const [openModal, setOpenModal] = useState<ModalMode>(null);
-    const [mId, setMId] = useState<number>(0);
+    const [mId, setMId] = useState<number | null>(0);
 
 
 
@@ -27,11 +28,13 @@ const Page = () => {
         refetchOnWindowFocus: false,
     });
 
-    const handleOpenModal = (id: number, mode: "delete" | "update") => {
-        setMId(id);
+    const handleOpenModal = (mode: "delete" | "update" | "post", id?: number) => {
+
+        console.log(mode);
+
+        setMId(id || 0);
         setOpenModal(mode);
     };
-
 
     const handleCloseModal = () => {
         console.log('luk');
@@ -52,7 +55,7 @@ const Page = () => {
                 <nav className="flex justify-between items-center max-w-6xl mx-auto">
                     <h1 className="text-lg font-semibold">Personer</h1>
                     <ul className="flex gap-4">
-                        <li><a href="#" className="hover:text-gray-300">Opret en person</a></li>
+                        <li><a href="#" className="hover:text-gray-300" onClick={() => { handleOpenModal("post") }}>Opret en person</a></li>
 
                     </ul>
                 </nav>
@@ -64,8 +67,8 @@ const Page = () => {
                         {data && data.map((items: any) => (
                             <Fragment key={items.id}>
                                 <div className="bg-gray-500 p-2.5">{items.name} {items.lastname}</div>
-                                <div className="bg-gray-800 p-2.5 grid items-center justify-center hover:cursor-pointer hover:bg-gray-400" onClick={() => { handleOpenModal(items.id, "update") }}> <Pencil size={18} /></div>
-                                <div className="bg-gray-800 p-2.5 grid items-center justify-center hover:cursor-pointer hover:bg-gray-400" onClick={() => { handleOpenModal(items.id, "delete") }} > <Trash2 size={18} /></div>
+                                <div className="bg-gray-800 p-2.5 grid items-center justify-center hover:cursor-pointer hover:bg-gray-400" onClick={() => { handleOpenModal("update", items.id) }}> <Pencil size={18} /></div>
+                                <div className="bg-gray-800 p-2.5 grid items-center justify-center hover:cursor-pointer hover:bg-gray-400" onClick={() => { handleOpenModal("delete", items.id) }} > <Trash2 size={18} /></div>
                             </Fragment>
                         ))}
                     </section>
@@ -78,6 +81,10 @@ const Page = () => {
 
             {openModal === "update" && (
                 <UpdateData close={handleCloseModal} id={mId} />
+            )}
+
+            {openModal === "post" && (
+                <PostData close={handleCloseModal} />
             )}
 
 

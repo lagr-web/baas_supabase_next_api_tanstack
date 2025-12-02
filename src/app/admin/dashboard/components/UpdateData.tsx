@@ -9,11 +9,13 @@ import { useEffect, useState } from 'react';
 type Props = {
 
     close: () => void;
-    id: number; // eller id: number | undefined
+    id: number | null; // eller id: number | undefined
 
 }
 
 const UpdateData = ({ close, id }: Props) => {
+
+if (id === null) return null;
 
     console.log(id);
 
@@ -25,10 +27,12 @@ const UpdateData = ({ close, id }: Props) => {
     const { data, isLoading } = useQuery({
         queryKey: ["mydata", id],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:3000/api/supa/${id}`);
+            const res = await fetch(`/api/supa/${id}`);
             if (!res.ok) throw new Error("Fejl ved hentning af data");
-            return res.json();
+              const json = await res.json();
+      return json;
         },
+         enabled: !!id,// kun kør når id er sand
     });
 
     // Når data er hentet, sæt den i formState
@@ -50,8 +54,9 @@ const UpdateData = ({ close, id }: Props) => {
             const res = await fetch(`http://localhost:3000/api/supa/update/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
+                body: JSON.stringify(data)
             });
+
             if (!res.ok) throw new Error("Fejl ved opdatering");
             return res.json();
         },
@@ -123,13 +128,15 @@ const UpdateData = ({ close, id }: Props) => {
                 <span className="text-gray-400 text-sm">
                 </span>
 
-                <Button />
+                <Button>
+                    Opdater
+                </Button>
 
             </form>
 
             <div className="block text-gray-600 text-center mt-2 font-medium text-base" role="status">
                 {updatePost.isPending
-                    ? "Sletter..."
+                    ? "Opdatere..."
                     : statusMsg
                         ? statusMsg
                         : ""}

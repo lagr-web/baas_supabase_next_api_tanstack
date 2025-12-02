@@ -2,7 +2,7 @@
 //src/components/TextFields.tsx
 
 type TextFieldProps = {
-    label: string;
+    label?: string;
     className?: string;
     
 } & React.InputHTMLAttributes<HTMLInputElement>;
@@ -10,7 +10,7 @@ type TextFieldProps = {
 const TextFields = ({ label, className = "", ...props }: TextFieldProps) => {
 
     return (
-        <div className="mb-5">
+        <div className="mb-3">
           <label className="block text-gray- text-md font-bold mb-1">{label}</label>
             <input
                 {...props}
