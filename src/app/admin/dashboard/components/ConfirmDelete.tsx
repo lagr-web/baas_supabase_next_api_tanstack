@@ -19,6 +19,7 @@ const ConfirmDelete = ({ close, id }: Props) => {
   const [statusMsg, setStatusMsg] = useState("");
 
   const deletePost = useMutation<any, Error, string>({
+
     mutationFn: async (id: string) => {
 
       const res = await fetch(`http://localhost:3000/api/supa/delete/${id}`, {
@@ -57,7 +58,7 @@ const ConfirmDelete = ({ close, id }: Props) => {
   return (
 
     <section
-      className="absolute grid-rows-4 w-2xs bg-white rounded top-40 left-1/2 -translate-x-1/2 text-sm p-4 shadow-2xl"
+      className="modal-container"
       role="dialog"
       aria-modal="true"
     >
@@ -65,7 +66,7 @@ const ConfirmDelete = ({ close, id }: Props) => {
 
       <div className="grid justify-left grid-cols-3 mr-2 pb-0.5">
 
-           <div></div>
+        <div></div>
         <Button
           value="cancel"
           onClick={close}
@@ -83,23 +84,6 @@ const ConfirmDelete = ({ close, id }: Props) => {
           Slet
         </Button>
 
-
-        {/* <button
-          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 mx-6 rounded cursor-pointer"
-          value="cancel"
-          onClick={close}
-        >
-          Annuller
-        </button>
-
-        <button
-          className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded cursor-pointer"
-          value="confirm"
-          onClick={() => deletePost.mutate(String(id))}
-          disabled={deletePost.isPending}
-        >
-          Slet
-        </button> */}
       </div>
 
       <div className="block text-gray-600 text-center mt-2 font-medium text-base" role="status">

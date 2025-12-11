@@ -1,14 +1,17 @@
+//src/app/admin/dashboard/components/PostData.tsx
+
 "use client";
 
 import React, { FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import TextFields from "./Textfields";
+import { X } from "lucide-react";
 import Button from "./Button";
 
 type Props = {
 
-    close: () => void;
-   
+  close: () => void;
+
 }
 
 const PostData = ({ close }: Props) => {
@@ -41,7 +44,7 @@ const PostData = ({ close }: Props) => {
       queryClient.invalidateQueries({ queryKey: ["mydata"] });
       setName("");
       setLastName("");
-       setTimeout(() => close(), 1000);
+      setTimeout(() => close(), 1000);
     },
 
   });
@@ -54,47 +57,46 @@ const PostData = ({ close }: Props) => {
 
   return (
 
-    <div className="absolute grid-rows-4 w-2xs bg-white rounded top-40 left-1/2 -translate-x-1/2 text-sm pt-2 px-4 pb-4 shadow-2xl">
+    <section className="form-container">
+      <div className="grid grid-cols-1 items-center">
+        <div className="justify-self-end" onClick={close}><X /></div>
+      </div>
 
-      <form
-        onSubmit={handleSubmit}
-     
-      >
+      <h2 className="text-xl font-semibold mb-4 text-center text-gray-700">
+        Tilføj person
+      </h2>
 
-        <h2 className="text-xl font-semibold mb-4 text-center text-gray-700">
-          Tilføj person
-        </h2>
 
+      <form onSubmit={handleSubmit}>
         <div className="grid grid-col gap-0">
 
-             <TextFields
-                   
-                    name="name"
-                    value={name}
-                     placeholder="Fornavn"
-                    onChange={(e) => setName(e.target.value)}
-                />
+          <TextFields
+            name="name"
+            value={name}
+            placeholder="Fornavn"
+            onChange={(e) => setName(e.target.value)}
+          />
 
-                   <TextFields
-                   
-                    name="lastname"
-                    value={lastname}
-                     placeholder="Efternavn"
-                    onChange={(e) => setLastName(e.target.value)}
-                />
+          <TextFields
+            name="lastname"
+            value={lastname}
+            placeholder="Efternavn"
+            onChange={(e) => setLastName(e.target.value)}
+          />
 
-        <Button 
-         className={`transition ${addPerson.isPending
+          <Button
+            className={`transition ${addPerson.isPending
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-gray-500 hover:bg-gray-500 cursor-pointer"
-              }`} 
-             > 
+              }`}
+          >
             Send
-        </Button>
- 
+          </Button>
+
         </div>
 
         {/* Feedback-sektion */}
+
         <div className="mt-4 text-center">
           {addPerson.isSuccess && (
             <p className="text-grey-600 font-medium"> Dine data er gemt!</p>
@@ -108,7 +110,7 @@ const PostData = ({ close }: Props) => {
 
 
       </form>
-    </div>
+    </section>
 
 
   );

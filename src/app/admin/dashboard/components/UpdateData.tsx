@@ -20,6 +20,7 @@ if (id === null) return null;
     console.log(id);
 
     const queryClient = useQueryClient();
+    
     const [statusMsg, setStatusMsg] = useState("");
     const [formData, setFormData] = useState({ name: "", lastname: "" });
 
@@ -99,7 +100,7 @@ if (id === null) return null;
     return (
 
         <section
-            className="absolute grid-rows-4 w-2xs bg-white rounded top-40 left-1/2 -translate-x-1/2 text-sm pt-2 px-4 pb-4 shadow-2xl"
+            className="modal-container"
             role="dialog"
             aria-modal="true"
         >
