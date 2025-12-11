@@ -12,6 +12,8 @@ import ConFirmDelete from './components/ConfirmDelete';
 import UpdateData from './components/UpdateData';
 import PostData from './components/PostData';
 
+import UpdateDataAction from './components/UpdateDataAction'; // bruger server actions i stedet for tanstack mutation, men next egen mutation kan også bruges
+
 type ModalMode = "delete" | "update" | "post" | null;
 
 const Page = () => {

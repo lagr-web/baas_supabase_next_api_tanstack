@@ -20,11 +20,11 @@ if (id === null) return null;
     console.log(id);
 
     const queryClient = useQueryClient();
-    
+
     const [statusMsg, setStatusMsg] = useState("");
     const [formData, setFormData] = useState({ name: "", lastname: "" });
 
-    // Hent eksisterende data for post
+   
     const { data, isLoading } = useQuery({
         queryKey: ["mydata", id],
         queryFn: async () => {
